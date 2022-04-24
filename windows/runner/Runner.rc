@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "org.codemaker" "\0"
-            VALUE "FileDescription", "pos_lite" "\0"
+            VALUE "FileDescription", "poslite" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "pos_lite" "\0"
+            VALUE "InternalName", "poslite" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2022 org.codemaker. All rights reserved." "\0"
-            VALUE "OriginalFilename", "pos_lite.exe" "\0"
-            VALUE "ProductName", "pos_lite" "\0"
+            VALUE "OriginalFilename", "poslite.exe" "\0"
+            VALUE "ProductName", "poslite" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

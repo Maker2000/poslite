@@ -1,4 +1,4 @@
-# pos_lite
+# poslite
 
 A new Flutter project.
 

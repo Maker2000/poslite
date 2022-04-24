@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
-project(pos_lite LANGUAGES CXX)
+project(poslite LANGUAGES CXX)
 
-set(BINARY_NAME "pos_lite")
+set(BINARY_NAME "poslite")
 
 cmake_policy(SET CMP0063 NEW)
 

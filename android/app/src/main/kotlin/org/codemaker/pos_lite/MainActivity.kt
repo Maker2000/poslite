@@ -1,4 +1,4 @@
-package org.codemaker.pos_lite
+package org.codemaker.poslite
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -1,6 +1,6 @@
 {
-    "name": "pos_lite",
-    "short_name": "pos_lite",
+    "name": "poslite",
+    "short_name": "poslite",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

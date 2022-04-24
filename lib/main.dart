@@ -1,6 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fast_barcode_scanner/fast_barcode_scanner.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:poslite/models/shop_item.dart';
+import 'package:poslite/shared_widgets/dislay_list.dart';
+import 'package:poslite/shared_widgets/loading_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
@@ -40,10 +48,39 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('test'),
-      ),
-      //body: ,
-    );
+        appBar: AppBar(
+          title: const Text('test'),
+        ),
+        body: StreamBuilder<QuerySnapshot<ShopItem>>(
+          builder: (context, snapshot) {
+            print(snapshot.connectionState);
+            return !snapshot.hasData
+                ? const LoadingScreen()
+                : DisplayList(
+                    documents: snapshot.data!.docs,
+                    item: (context, data) {
+                      ShopItem item = data as ShopItem;
+                      return Text(item.name);
+                    });
+          },
+        ) /* BarcodeCamera(
+        types: const [BarcodeType.ean8, BarcodeType.ean13, BarcodeType.code128],
+        resolution: Resolution.hd720,
+        framerate: Framerate.fps30,
+        mode: DetectionMode.pauseVideo,
+        // ignore: avoid_print
+        onScan: (code) => print(code.value),
+        children: [
+          const MaterialPreviewOverlay(animateDetection: false),
+          const BlurPreviewOverlay(),
+          Positioned(
+            child: ElevatedButton(
+              onPressed: () => CameraController.instance.resumeDetector(),
+              child: const Text('Resume'),
+            ),
+          )
+        ],
+      ), */
+        );
   }
 }
