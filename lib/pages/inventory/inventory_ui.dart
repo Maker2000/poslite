@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:poslite/pages/inventory/inventory_widgets.dart';
 
 import '../../models/shop_item.dart';
 import '../../repositories/item_repo.dart';
@@ -26,19 +27,18 @@ class _InventoryState extends State<Inventory> {
         builder: (context, snapshot) {
           return !snapshot.hasData
               ? const LoadingScreen()
-              : DisplayList<ShopItem>(
+              : InventoryDataTable(
+                  items: snapshot.data!
+                      .docs); /* DisplayList<ShopItem>(
                   documents: snapshot.data!.docs,
                   item: (context, data) {
                     item = data;
                     return Text(data.data().name);
-                  });
+                  }); */
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: (() {
-          ShopItem i = item.data().copyWith(name: "Pumpkin");
-          ProductRepository.instance.updateItem(i, item.id);
-        }),
+        onPressed: () async {},
       ),
     );
   }

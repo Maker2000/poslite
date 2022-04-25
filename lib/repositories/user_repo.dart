@@ -4,13 +4,16 @@ import '../models/user.dart';
 import 'generic_repos.dart';
 
 class UserRepository implements IRepository<User> {
+  UserRepository._inst();
+  static final UserRepository _instance = UserRepository._inst();
+
+  static UserRepository get instance => _instance;
   @override
-  CollectionReference<User> get getAllItems {
-    return FirebaseFirestore.instance.collection('user').withConverter(
-          fromFirestore: (snapshot, _) => User.fromJson(snapshot.data()!),
-          toFirestore: (User model, _) => model.toJson(),
-        );
-  }
+  CollectionReference<User> get getAllItems =>
+      FirebaseFirestore.instance.collection('user').withConverter(
+            fromFirestore: (snapshot, _) => User.fromJson(snapshot.data()!),
+            toFirestore: (User model, _) => model.toJson(),
+          );
 
   @override
   Future<User?> getItem(String documentId) async =>

@@ -9,12 +9,11 @@ class ProductRepository implements IRepository<ShopItem> {
 
   static ProductRepository get instance => _instance;
   @override
-  CollectionReference<ShopItem> get getAllItems {
-    return FirebaseFirestore.instance.collection('inventory').withConverter(
-          fromFirestore: (snapshot, _) => ShopItem.fromJson(snapshot.data()!),
-          toFirestore: (ShopItem model, _) => model.toJson(),
-        );
-  }
+  CollectionReference<ShopItem> get getAllItems =>
+      FirebaseFirestore.instance.collection('inventory').withConverter(
+            fromFirestore: (snapshot, _) => ShopItem.fromJson(snapshot.data()!),
+            toFirestore: (ShopItem model, _) => model.toJson(),
+          );
 
   @override
   Future<ShopItem?> getItem(String documentId) async =>
