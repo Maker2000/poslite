@@ -10,7 +10,7 @@ class ShopItem {
     required this.amount,
     required this.price,
   });
-
+  ShopItem.empty({this.amount = 0, this.name = '', this.price = 0.0});
   String name;
   int amount;
   double price;

@@ -19,11 +19,38 @@ class ProductRepository implements IRepository<ShopItem> {
   Future<ShopItem?> getItem(String documentId) async =>
       (await getAllItems.doc(documentId).get()).data();
   @override
-  Future<void> addItem(ShopItem item) async => await getAllItems.add(item);
+  Future<void> addItem(ShopItem item, String id) async {
+    DocumentSnapshot<ShopItem> items = await getAllItems.doc(id).get();
+    if (items.data() == null) {
+      await getAllItems.doc(id).set(item);
+    } else {
+      item.amount += items.data()!.amount;
+      item.price = items.data()!.price;
+      item.name = items.data()!.name;
+      await getAllItems.doc(items.id).update(item.toJson());
+    }
+  }
+
   @override
   Future<void> updateItem(ShopItem item, String docId) async =>
       await getAllItems.doc(docId).update(item.toJson());
   @override
   Future<void> deleteItem(String docId) async =>
       await getAllItems.doc(docId).delete();
+
+  Future<List<QueryDocumentSnapshot<ShopItem>>> _queryDataBaseSingle(
+          String data) async =>
+      (await getAllItems.where("name", isEqualTo: data).get()).docs;
+
+  automatedUpload() async {
+    var files = await FirebaseFirestore.instance
+        .collection('fromCollection')
+        .snapshots()
+        .first;
+    for (var file in files.docs) {
+      Map<String, dynamic> data = file.data();
+      data.addAll({"tag": "foodtag"});
+      FirebaseFirestore.instance.collection('toCollection').add(data);
+    }
+  }
 }

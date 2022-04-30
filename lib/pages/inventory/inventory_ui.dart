@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:poslite/pages/inventory/inventory_widgets.dart';
+import 'package:poslite/util/routes.dart';
 
 import '../../models/shop_item.dart';
 import '../../repositories/item_repo.dart';
-import '../../shared_widgets/dislay_list.dart';
 import '../../shared_widgets/loading_screen.dart';
 
 class Inventory extends StatefulWidget {
@@ -38,7 +38,9 @@ class _InventoryState extends State<Inventory> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () async {},
+        onPressed: () async {
+          Navigator.pushNamed(context, RouteNames.addItems);
+        },
       ),
     );
   }

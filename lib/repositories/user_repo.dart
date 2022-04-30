@@ -19,7 +19,8 @@ class UserRepository implements IRepository<User> {
   Future<User?> getItem(String documentId) async =>
       (await getAllItems.doc(documentId).get()).data();
   @override
-  Future<void> addItem(User item) async => await getAllItems.add(item);
+  Future<void> addItem(User item, String id) async =>
+      await getAllItems.add(item);
   @override
   Future<void> updateItem(User item, String docId) async =>
       await getAllItems.doc(docId).update(item.toJson());

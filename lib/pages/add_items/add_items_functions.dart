@@ -5,21 +5,31 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:poslite/repositories/item_repo.dart';
 
 final addItemFunction =
-    StateNotifierProvider<AddItemFunctions, List<ShopItem>>((ref) {
+    StateNotifierProvider<AddItemFunctions, List<AddItemObj>>((ref) {
   return AddItemFunctions([]);
 });
 
-class AddItemFunctions extends StateNotifier<List<ShopItem>> {
-  AddItemFunctions(List<ShopItem> state) : super(state);
-  void addItemToList(ShopItem item) {
+class AddItemFunctions extends StateNotifier<List<AddItemObj>> {
+  AddItemFunctions(List<AddItemObj> state) : super(state);
+  void addItemToList(AddItemObj item) {
     state = [...state, item];
+  }
+
+  bool isLoading = false;
+  Future<void> init(Function update) async {
+    isLoading = true;
+    update.call();
+    await Future.delayed(const Duration(seconds: 3));
+    update.call();
+    isLoading = false;
   }
 
   Future<String> addItemToDatabase() async {
     String message = '';
+    //print(state.length);
     try {
       for (var item in state) {
-        await ProductRepository.instance.addItem(item);
+        await ProductRepository.instance.addItem(item.item, item.id);
       }
       message = "Items added successfully";
     } on SocketException {
@@ -29,4 +39,10 @@ class AddItemFunctions extends StateNotifier<List<ShopItem>> {
     }
     return message;
   }
+}
+
+class AddItemObj {
+  ShopItem item;
+  String id;
+  AddItemObj(this.id, this.item);
 }
