@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:poslite/pages/inventory/inventory_widgets.dart';
 import 'package:poslite/util/routes.dart';
 
-import '../../models/shop_item.dart';
+import '../../models/shop_item/shop_item.dart';
 import '../../repositories/item_repo.dart';
 import '../../shared_widgets/loading_screen.dart';
 

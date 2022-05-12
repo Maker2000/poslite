@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:poslite/shared_widgets/validate_formfield.dart';
 
-import '../models/shop_item.dart';
+import '../models/shop_item/shop_item.dart';
 import '../pages/add_items/add_items_functions.dart';
 import '../repositories/item_repo.dart';
 

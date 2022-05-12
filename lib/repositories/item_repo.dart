@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:poslite/models/shop_item.dart';
+import 'package:poslite/models/shop_item/shop_item.dart';
 
 import 'generic_repos.dart';
 

@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:poslite/models/shop_item/shop_item.dart';
 import 'package:poslite/shared_widgets/item_card.dart';
 import 'package:poslite/util/routes.dart';
+
+import '../../models/sales/sales.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -10,8 +14,19 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  late Sales sale;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    sale = Sales(
+        items: [ShopItem(amount: 1, price: 2.3, name: 'Hello')],
+        date: Timestamp.now());
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(sale.toJson());
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(12.0),

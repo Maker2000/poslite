@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:poslite/models/shop_item.dart';
+import 'package:poslite/models/shop_item/shop_item.dart';
 
 import '../../shared_widgets/inventory_item_edit.dart';
 
@@ -30,7 +30,7 @@ class InventoryDataTable extends StatelessWidget {
       rows: [
         for (var item in items)
           DataRow(cells: [
-            DataCell(Text(item.data().name)),
+            DataCell(Text(item.data().name!)),
             DataCell(Text('${item.data().price}')),
             DataCell(Text('${item.data().amount}')),
             DataCell(IconButton(

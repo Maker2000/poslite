@@ -2,7 +2,7 @@ import 'package:fast_barcode_scanner/fast_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
-import 'package:poslite/models/shop_item.dart';
+import 'package:poslite/models/shop_item/shop_item.dart';
 import 'package:poslite/pages/add_items/add_items_functions.dart';
 import 'package:poslite/shared_widgets/inventory_item_edit.dart';
 import 'package:poslite/shared_widgets/loading_screen.dart';

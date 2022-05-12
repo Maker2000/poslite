@@ -1,8 +1,9 @@
 import 'dart:io';
 
-import 'package:poslite/models/shop_item.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:poslite/repositories/item_repo.dart';
+
+import '../../models/shop_item/shop_item.dart';
 
 final addItemFunction =
     StateNotifierProvider<AddItemFunctions, List<AddItemObj>>((ref) {
