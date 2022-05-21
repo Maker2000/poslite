@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poslite/util/routes.dart';
+import 'util/magic_strings.dart';
+import 'util/routes.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,16 +11,18 @@ Future<void> main() async {
   runApp(const ProviderScope(child: POSLite()));
 }
 
-class POSLite extends StatelessWidget {
+class POSLite extends ConsumerWidget {
   const POSLite({Key? key}) : super(key: key);
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MaterialApp(
       title: 'POS Lite',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      initialRoute: RouteNames.dashboard,
+      initialRoute: FirebaseAuth.instance.currentUser == null
+          ? RouteNames.login
+          : RouteNames.home,
       routes: Routes.normalRoutes,
       onGenerateRoute: Routes.generatedRoutes,
     );

@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:poslite/pages/inventory/inventory_widgets.dart';
-import 'package:poslite/util/routes.dart';
 
+import 'inventory_widgets.dart';
 import '../../models/shop_item/shop_item.dart';
 import '../../repositories/item_repo.dart';
 import '../../shared_widgets/loading_screen.dart';
+import '../../util/magic_strings.dart';
 
 class Inventory extends StatefulWidget {
   const Inventory({Key? key}) : super(key: key);

@@ -1,25 +1,27 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:poslite/models/shop_item/shop_item.dart';
+import 'package:poslite/util/magic_strings.dart';
 
 import 'generic_repos.dart';
 
-class ProductRepository implements IRepository<ShopItem> {
+class ProductRepository implements IGenericRepository<ShopItem> {
   ProductRepository._inst();
   static final ProductRepository _instance = ProductRepository._inst();
 
   static ProductRepository get instance => _instance;
   @override
-  CollectionReference<ShopItem> get getAllItems =>
-      FirebaseFirestore.instance.collection('inventory').withConverter(
-            fromFirestore: (snapshot, _) => ShopItem.fromJson(snapshot.data()!),
-            toFirestore: (ShopItem model, _) => model.toJson(),
-          );
+  CollectionReference<ShopItem> get getAllItems => FirebaseFirestore.instance
+      .collection(DatabaseCollection.inventory)
+      .withConverter(
+        fromFirestore: (snapshot, _) => ShopItem.fromJson(snapshot.data()!),
+        toFirestore: (ShopItem model, _) => model.toJson(),
+      );
 
   @override
   Future<ShopItem?> getItem(String documentId) async =>
       (await getAllItems.doc(documentId).get()).data();
   @override
-  Future<void> addItem(ShopItem item, String id) async {
+  Future<void> addItem(ShopItem item, [String? id]) async {
     DocumentSnapshot<ShopItem> items = await getAllItems.doc(id).get();
     if (items.data() == null) {
       await getAllItems.doc(id).set(item);
@@ -37,20 +39,4 @@ class ProductRepository implements IRepository<ShopItem> {
   @override
   Future<void> deleteItem(String docId) async =>
       await getAllItems.doc(docId).delete();
-
-  Future<List<QueryDocumentSnapshot<ShopItem>>> _queryDataBaseSingle(
-          String data) async =>
-      (await getAllItems.where("name", isEqualTo: data).get()).docs;
-
-  automatedUpload() async {
-    var files = await FirebaseFirestore.instance
-        .collection('fromCollection')
-        .snapshots()
-        .first;
-    for (var file in files.docs) {
-      Map<String, dynamic> data = file.data();
-      data.addAll({"tag": "foodtag"});
-      FirebaseFirestore.instance.collection('toCollection').add(data);
-    }
-  }
 }

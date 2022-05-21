@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/user.dart';
 import 'generic_repos.dart';
 
-class UserRepository implements IRepository<User> {
+class UserRepository implements IGenericRepository<User> {
   UserRepository._inst();
   static final UserRepository _instance = UserRepository._inst();
 
@@ -19,7 +19,7 @@ class UserRepository implements IRepository<User> {
   Future<User?> getItem(String documentId) async =>
       (await getAllItems.doc(documentId).get()).data();
   @override
-  Future<void> addItem(User item, String id) async =>
+  Future<void> addItem(User item, [String? id]) async =>
       await getAllItems.add(item);
   @override
   Future<void> updateItem(User item, String docId) async =>
