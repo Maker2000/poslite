@@ -49,7 +49,7 @@ class _LoginState extends ConsumerState<Login> {
                       onPressed: () async {
                         await ref
                             .read(loginScreenControllerProvider.notifier)
-                            .signIn(controller.text);
+                            .signIn(controller.text, context);
                       },
                       child: const Text('Login'),
                     ),

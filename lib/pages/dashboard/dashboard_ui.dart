@@ -2,8 +2,6 @@
 
 import 'package:flutter/material.dart';
 import 'dashboard_widgets.dart';
-import '../../shared_widgets/item_card.dart';
-import '../../util/magic_strings.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);

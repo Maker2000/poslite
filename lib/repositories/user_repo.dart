@@ -27,4 +27,9 @@ class UserRepository implements IGenericRepository<User> {
   @override
   Future<void> deleteItem(String docId) async =>
       await getAllItems.doc(docId).delete();
+
+  @override
+  DocumentReference<User> streamItem(String id) {
+    throw UnimplementedError();
+  }
 }

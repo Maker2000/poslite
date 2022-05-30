@@ -1,11 +1,11 @@
-import 'package:fast_barcode_scanner/fast_barcode_scanner.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
-import 'package:poslite/models/shop_item/shop_item.dart';
-import 'package:poslite/pages/add_items/add_items_functions.dart';
-import 'package:poslite/shared_widgets/inventory_item_edit.dart';
-import 'package:poslite/shared_widgets/loading_screen.dart';
+import '../../models/shop_item/shop_item.dart';
+import 'add_items_functions.dart';
+import '../../shared_widgets/barcode_scanner.dart';
+import '../../shared_widgets/item_card.dart';
+import '../../shared_widgets/loading_screen.dart';
 
 class AddItems extends ConsumerStatefulWidget {
   const AddItems({Key? key}) : super(key: key);
@@ -27,45 +27,46 @@ class _AddItemsState extends ConsumerState<AddItems> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ref.read(addItemFunction.notifier).isLoading
-          ? const LoadingScreen()
-          : BarcodeCamera(
-              types: const [
-                BarcodeType.ean8,
-                BarcodeType.ean13,
-                BarcodeType.code128
-              ],
-              resolution: Resolution.hd720,
-              framerate: Framerate.fps30,
-              mode: DetectionMode.pauseVideo,
-              onScan: (code) async {
-                // ignore: avoid_print
-                print(code.value);
-
-                setState(() {
-                  isScanning = false;
-                });
-                AddItemObj? obj = await showDialog<AddItemObj>(
-                    context: context,
-                    builder: (_) {
-                      return InventoryItemEditAlert<AddItemObj>(
-                        item: AddItemObj(code.value, ShopItem.empty()),
-                      );
-                    });
-                if (obj != null) {
-                  ref.read(addItemFunction.notifier).addItemToList(obj);
-                  // ref.read(addItemFunction.notifier).addItemToDatabase();
-                }
-                CameraController.instance.resumeDetector();
-                setState(() {
-                  isScanning = true;
-                });
-              },
-              children: const [
-                MaterialPreviewOverlay(animateDetection: false),
-                BlurPreviewOverlay(),
-              ],
-            ),
-    );
+        body: ref.read(addItemFunction.notifier).isLoading
+            ? const LoadingScreen()
+            : Column(
+                children: [
+                  Flexible(
+                    flex: 6,
+                    child: ListView.builder(
+                      itemCount: ref.watch(addItemFunction).length,
+                      itemBuilder: (context, index) {
+                        ShopItem item = ref.watch(addItemFunction)[index];
+                        return ItemCard(
+                          item: item,
+                          onDelete: (id) {
+                            ref
+                                .read(addItemFunction.notifier)
+                                .deleteFromList(id);
+                          },
+                          onEdit: (id) {},
+                          label: 'add to inventory list.',
+                        );
+                      },
+                    ),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await ref
+                          .read(addItemFunction.notifier)
+                          .addItemToDatabase();
+                    },
+                    child: const Text('Submit'),
+                  ),
+                  SizedBox(
+                    height: 60,
+                    child: BarcodeWidget(onTap: (value) async {
+                      await ref
+                          .read(addItemFunction.notifier)
+                          .addItem(value, context);
+                    }),
+                  ),
+                ],
+              ));
   }
 }

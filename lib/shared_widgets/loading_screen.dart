@@ -7,8 +7,13 @@ class LoadingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-        child: Column(
-      children: [const CircularProgressIndicator(), Text(text)],
-    ));
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const CircularProgressIndicator(),
+          Text(text),
+        ],
+      ),
+    );
   }
 }

@@ -37,10 +37,12 @@ class _InventoryState extends State<Inventory> {
                   }); */
         },
       ),
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: FloatingActionButton.extended(
+        icon: const Icon(Icons.add),
         onPressed: () async {
           Navigator.pushNamed(context, RouteNames.addItems);
         },
+        label: const Text('Add Item'),
       ),
     );
   }

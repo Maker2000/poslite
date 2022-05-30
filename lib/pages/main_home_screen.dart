@@ -22,10 +22,7 @@ class _MainHomeScreenState extends State<MainHomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        children: screens,
-        index: currentIndex,
-      ),
+      body: screens[currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         onTap: (index) {
           setState(() {

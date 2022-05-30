@@ -21,14 +21,12 @@ class ProductRepository implements IGenericRepository<ShopItem> {
   Future<ShopItem?> getItem(String documentId) async =>
       (await getAllItems.doc(documentId).get()).data();
   @override
-  Future<void> addItem(ShopItem item, [String? id]) async {
-    DocumentSnapshot<ShopItem> items = await getAllItems.doc(id).get();
+  Future<void> addItem(ShopItem item, [String? docId]) async {
+    DocumentSnapshot<ShopItem> items = await getAllItems.doc(docId).get();
     if (items.data() == null) {
-      await getAllItems.doc(id).set(item);
+      await getAllItems.doc(docId).set(item);
     } else {
       item.amount += items.data()!.amount;
-      item.price = items.data()!.price;
-      item.name = items.data()!.name;
       await getAllItems.doc(items.id).update(item.toJson());
     }
   }
@@ -39,4 +37,9 @@ class ProductRepository implements IGenericRepository<ShopItem> {
   @override
   Future<void> deleteItem(String docId) async =>
       await getAllItems.doc(docId).delete();
+
+  @override
+  DocumentReference<ShopItem> streamItem(String id) {
+    return streamItem(id);
+  }
 }

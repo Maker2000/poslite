@@ -20,6 +20,10 @@ ShopItem _$ShopItemFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$ShopItem {
+  @JsonKey(name: 'id')
+  String? get id => throw _privateConstructorUsedError;
+  @JsonKey(name: 'id')
+  set id(String? value) => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;
   @JsonKey(name: 'name')
@@ -44,7 +48,8 @@ abstract class $ShopItemCopyWith<$Res> {
   factory $ShopItemCopyWith(ShopItem value, $Res Function(ShopItem) then) =
       _$ShopItemCopyWithImpl<$Res>;
   $Res call(
-      {@JsonKey(name: 'name') String? name,
+      {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'amount') int amount,
       @JsonKey(name: 'price') double price});
 }
@@ -59,11 +64,16 @@ class _$ShopItemCopyWithImpl<$Res> implements $ShopItemCopyWith<$Res> {
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? amount = freezed,
     Object? price = freezed,
   }) {
     return _then(_value.copyWith(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -87,7 +97,8 @@ abstract class _$$_ShopItemCopyWith<$Res> implements $ShopItemCopyWith<$Res> {
       __$$_ShopItemCopyWithImpl<$Res>;
   @override
   $Res call(
-      {@JsonKey(name: 'name') String? name,
+      {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'amount') int amount,
       @JsonKey(name: 'price') double price});
 }
@@ -104,11 +115,16 @@ class __$$_ShopItemCopyWithImpl<$Res> extends _$ShopItemCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object? id = freezed,
     Object? name = freezed,
     Object? amount = freezed,
     Object? price = freezed,
   }) {
     return _then(_$_ShopItem(
+      id: id == freezed
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
       name: name == freezed
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -129,13 +145,17 @@ class __$$_ShopItemCopyWithImpl<$Res> extends _$ShopItemCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_ShopItem implements _ShopItem {
   _$_ShopItem(
-      {@JsonKey(name: 'name') this.name,
+      {@JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'name') this.name,
       @JsonKey(name: 'amount') required this.amount,
       @JsonKey(name: 'price') required this.price});
 
   factory _$_ShopItem.fromJson(Map<String, dynamic> json) =>
       _$$_ShopItemFromJson(json);
 
+  @override
+  @JsonKey(name: 'id')
+  String? id;
   @override
   @JsonKey(name: 'name')
   String? name;
@@ -148,7 +168,7 @@ class _$_ShopItem implements _ShopItem {
 
   @override
   String toString() {
-    return 'ShopItem(name: $name, amount: $amount, price: $price)';
+    return 'ShopItem(id: $id, name: $name, amount: $amount, price: $price)';
   }
 
   @JsonKey(ignore: true)
@@ -164,12 +184,16 @@ class _$_ShopItem implements _ShopItem {
 
 abstract class _ShopItem implements ShopItem {
   factory _ShopItem(
-      {@JsonKey(name: 'name') String? name,
+      {@JsonKey(name: 'id') String? id,
+      @JsonKey(name: 'name') String? name,
       @JsonKey(name: 'amount') required int amount,
       @JsonKey(name: 'price') required double price}) = _$_ShopItem;
 
   factory _ShopItem.fromJson(Map<String, dynamic> json) = _$_ShopItem.fromJson;
 
+  @override
+  @JsonKey(name: 'id')
+  String? get id => throw _privateConstructorUsedError;
   @override
   @JsonKey(name: 'name')
   String? get name => throw _privateConstructorUsedError;

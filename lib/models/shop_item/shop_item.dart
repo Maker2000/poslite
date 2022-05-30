@@ -11,6 +11,7 @@ String shopItemToJson(ShopItem data) => json.encode(data.toJson());
 @unfreezed
 class ShopItem with _$ShopItem {
   factory ShopItem({
+    @JsonKey(name: 'id') String? id,
     @JsonKey(name: 'name') String? name,
     @JsonKey(name: 'amount') required int amount,
     @JsonKey(name: 'price') required double price,

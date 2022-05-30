@@ -6,4 +6,7 @@ abstract class IGenericRepository<T> {
   Future<void> addItem(T item, [String? docId]);
   Future<void> updateItem(T item, String docId);
   Future<void> deleteItem(String docId);
+  DocumentReference<T> streamItem(String id) {
+    return getAllItems.doc(id);
+  }
 }
