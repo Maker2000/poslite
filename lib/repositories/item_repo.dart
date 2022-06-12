@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:poslite/models/shop_item/shop_item.dart';
 import 'package:poslite/util/magic_strings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'generic_repos.dart';
 
@@ -23,6 +24,8 @@ class ProductRepository implements IGenericRepository<ShopItem> {
   @override
   Future<void> addItem(ShopItem item, [String? docId]) async {
     DocumentSnapshot<ShopItem> items = await getAllItems.doc(docId).get();
+    var p = await SharedPreferences.getInstance();
+    p.setInt('key', 0xffacff34);
     if (items.data() == null) {
       await getAllItems.doc(docId).set(item);
     } else {

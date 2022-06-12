@@ -24,13 +24,6 @@ class TimestampConverter implements JsonConverter<Timestamp, Timestamp> {
   Timestamp toJson(Timestamp object) => object;
 }
 
-extension Iterables<E> on Iterable<E> {
-  Map<K, List<E>> groupBy<K>(K Function(E) keyFunction) => fold(
-      <K, List<E>>{},
-      (Map<K, List<E>> map, E element) =>
-          map..putIfAbsent(keyFunction(element), () => <E>[]).add(element));
-}
-
 extension AsyncValueUI on AsyncValue<String> {
   // isLoading shorthand (AsyncLoading is a subclass of AsycValue)
   bool get isLoading => this is AsyncLoading<String>;

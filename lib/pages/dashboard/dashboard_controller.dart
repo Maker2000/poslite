@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:poslite/util/chart_data_models.dart';
-import 'package:poslite/util/magic_strings.dart';
+import '../../util/chart_data_models.dart';
+import '../../util/general_extensions.dart';
+import '../../util/magic_strings.dart';
 import '../../repositories/store_transactions_repo.dart';
-import '../../util/useful_extensions.dart';
 import '../../models/store_transaction/store_transaction.dart';
 
 class DashboardFunctions {
