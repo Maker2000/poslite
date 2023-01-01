@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poslite/util/providers.dart';
-import 'package:poslite/util/useful_extensions.dart';
+import 'package:poslite/shared_widgets/focus_unfocus.dart';
+
+import '../../providers/providers.dart';
 
 class Login extends ConsumerStatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -11,19 +12,9 @@ class Login extends ConsumerStatefulWidget {
 }
 
 class _LoginState extends ConsumerState<Login> {
-  final TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    final AsyncValue<String> state = ref.watch(loginScreenControllerProvider);
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          FocusScopeNode currentFocus = FocusScope.of(context);
-          if (!currentFocus.hasPrimaryFocus) {
-            currentFocus.unfocus();
-          }
-        });
-      },
+    return FocusUnfocus(
       child: Scaffold(
         body: Container(
           padding: const EdgeInsets.all(12),
@@ -37,27 +28,21 @@ class _LoginState extends ConsumerState<Login> {
               ),
               const SizedBox(height: 50),
               TextField(
+                onChanged: ref.read(loginProvider.notifier).updatePassword,
                 obscureText: true,
-                controller: controller,
                 decoration: const InputDecoration(
-                    border: OutlineInputBorder(), labelText: 'Password'),
+                    border: UnderlineInputBorder(), labelText: 'Password'),
               ),
               const SizedBox(height: 50),
-              state.isLoading
+              ref.watch(loginProvider).isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: () async {
-                        await ref
-                            .read(loginScreenControllerProvider.notifier)
-                            .signIn(controller.text, context);
+                        await ref.read(loginProvider.notifier).signIn(context);
                       },
                       child: const Text('Login'),
                     ),
-              state.when(
-                data: (data) => Text(data.toString()),
-                error: (error, trace) => Text(error.toString()),
-                loading: SizedBox.shrink,
-              )
+              Text(ref.watch(loginProvider).value!.errorMessage!)
             ],
           ),
         ),

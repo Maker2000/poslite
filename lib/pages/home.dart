@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'app_settings/app_settings_ui.dart';
-import 'checkout/checkout_ui.dart';
-import 'dashboard/dashboard_ui.dart';
-import 'inventory/inventory_ui.dart';
 
-class MainHomeScreen extends StatefulWidget {
-  const MainHomeScreen({Key? key}) : super(key: key);
+import 'pages.dart';
+
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<MainHomeScreen> createState() => _MainHomeScreenState();
+  State<Home> createState() => _HomeState();
 }
 
-class _MainHomeScreenState extends State<MainHomeScreen> {
+class _HomeState extends State<Home> {
   List<Widget> screens = const [
     Dashboard(),
     Inventory(),

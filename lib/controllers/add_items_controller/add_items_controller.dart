@@ -1,33 +1,34 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:poslite/repositories/item_repo.dart';
 
-import '../../models/shop_item/shop_item.dart';
-import '../../shared_widgets/inventory_item_edit.dart';
+import '../../../models/shop_item/shop_item.dart';
+import '../../../shared_widgets/inventory_item_edit.dart';
 
-final addItemFunction =
-    StateNotifierProvider<AddItemFunctions, List<ShopItem>>((ref) {
-  return AddItemFunctions();
-});
+part 'add_items_state.dart';
+part 'add_items_controller.freezed.dart';
 
-class AddItemFunctions extends StateNotifier<List<ShopItem>> {
-  AddItemFunctions() : super([]);
+class AddItemController extends AutoDisposeAsyncNotifier<AddItemsState> {
   late List<ShopItem> databaseList;
   void deleteFromList(String id) {
-    state = state.where((element) => element.id != id).toList();
+    state = AsyncValue.data(state.value!.copyWith(
+        items:
+            state.value!.items.where((element) => element.id != id).toList()));
   }
 
   void editInList(String id) {
-    state = state.where((element) => element.id != id).toList();
+    // state = state.where((element) => element.id != id).toList();
   }
 
   Future<void> addItem(String id, BuildContext context) async {
     int itemFromDatabase = databaseList.indexWhere(
       (element) => element.id == id,
     );
-    int hasItem = state.indexWhere(
+    int hasItem = state.value!.items.indexWhere(
       (element) => element.id == id,
     );
 
@@ -45,32 +46,32 @@ class AddItemFunctions extends StateNotifier<List<ShopItem>> {
             });
       }
       if (obj != null) {
-        state = [...state, obj];
+        state = AsyncValue.data(
+            state.value!.copyWith(items: [...state.value!.items, obj]));
       }
     } else {
-      state = [
-        for (var item in state)
+      state = AsyncValue.data(state.value!.copyWith(items: [
+        for (var item in state.value!.items)
           if (item.id == id) item.copyWith(amount: item.amount + 1) else item
-      ];
+      ]));
     }
   }
 
-  bool isLoading = false;
-  Future<void> init(Function update) async {
-    isLoading = false;
-    update.call();
+  Future<void> init() async {
+    state = const AsyncValue.loading();
+
     databaseList = (await ProductRepository.instance.getAllItems.get())
         .docs
         .map<ShopItem>((e) => e.data())
         .toList();
-    update.call();
-    isLoading = false;
+
+    state = AsyncValue.data(state.value!);
   }
 
   Future<String> addItemToDatabase() async {
     String message = '';
     try {
-      for (var item in state) {
+      for (var item in state.value!.items) {
         await ProductRepository.instance.addItem(item, item.id);
       }
       message = "Items added successfully";
@@ -80,5 +81,10 @@ class AddItemFunctions extends StateNotifier<List<ShopItem>> {
       message = 'An error has occured';
     }
     return message;
+  }
+
+  @override
+  FutureOr<AddItemsState> build() {
+    return state.value!;
   }
 }

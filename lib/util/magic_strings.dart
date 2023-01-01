@@ -10,10 +10,6 @@ class AuthData {
   static const String email = 'zellorine@gmail.com';
 }
 
-class RouteNames {
-  static const String dashboard = 'dashboard',
-      inventory = 'inventory',
-      addItems = 'addItems',
-      login = 'login',
-      home = 'home';
-}
+enum RouteName { dashboard, inventory, addItems, login, home }
+
+enum SharedPreferenceName { userData }

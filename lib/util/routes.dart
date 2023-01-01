@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import '../pages/add_items/add_items_ui.dart';
-import '../pages/dashboard/dashboard_ui.dart';
-import '../pages/inventory/inventory_ui.dart';
-import '../pages/login/login_ui.dart';
-import '../pages/main_home_screen.dart';
+import '../pages/pages.dart';
 import 'magic_strings.dart';
 
 class Routes {
   static Map<String, WidgetBuilder> normalRoutes = {
-    RouteNames.dashboard: (context) => const Dashboard(),
-    RouteNames.inventory: (context) => const Inventory(),
-    RouteNames.addItems: (context) => const AddItems(),
-    RouteNames.login: (context) => const Login(),
-    RouteNames.home: (context) => const MainHomeScreen()
+    RouteName.dashboard.name: (context) => const Dashboard(),
+    RouteName.inventory.name: (context) => const Inventory(),
+    RouteName.addItems.name: (context) => const AddItems(),
+    RouteName.login.name: (context) => const Login(),
+    RouteName.home.name: (context) => const Home()
   };
   static Route<dynamic> generatedRoutes(RouteSettings settings) {
     switch (settings.name) {

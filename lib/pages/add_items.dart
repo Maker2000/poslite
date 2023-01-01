@@ -2,7 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter/material.dart';
 import '../../models/shop_item/shop_item.dart';
-import 'add_items_functions.dart';
+import '../../providers/providers.dart';
 import '../../shared_widgets/barcode_scanner.dart';
 import '../../shared_widgets/item_card.dart';
 import '../../shared_widgets/loading_screen.dart';
@@ -15,33 +15,26 @@ class AddItems extends ConsumerStatefulWidget {
 }
 
 class _AddItemsState extends ConsumerState<AddItems> {
-  @override
-  void initState() {
-    super.initState();
-    ref.read(addItemFunction.notifier).init(() {
-      setState(() {});
-    });
-  }
-
   bool isScanning = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ref.read(addItemFunction.notifier).isLoading
+        body: ref.watch(addItemProvider).isLoading
             ? const LoadingScreen()
             : Column(
                 children: [
                   Flexible(
                     flex: 6,
                     child: ListView.builder(
-                      itemCount: ref.watch(addItemFunction).length,
+                      itemCount: ref.watch(addItemProvider).value!.items.length,
                       itemBuilder: (context, index) {
-                        ShopItem item = ref.watch(addItemFunction)[index];
+                        ShopItem item =
+                            ref.watch(addItemProvider).value!.items[index];
                         return ItemCard(
                           item: item,
                           onDelete: (id) {
                             ref
-                                .read(addItemFunction.notifier)
+                                .read(addItemProvider.notifier)
                                 .deleteFromList(id);
                           },
                           onEdit: (id) {},
@@ -53,7 +46,7 @@ class _AddItemsState extends ConsumerState<AddItems> {
                   ElevatedButton(
                     onPressed: () async {
                       await ref
-                          .read(addItemFunction.notifier)
+                          .read(addItemProvider.notifier)
                           .addItemToDatabase();
                     },
                     child: const Text('Submit'),
@@ -62,7 +55,7 @@ class _AddItemsState extends ConsumerState<AddItems> {
                     height: 60,
                     child: BarcodeWidget(onTap: (value) async {
                       await ref
-                          .read(addItemFunction.notifier)
+                          .read(addItemProvider.notifier)
                           .addItem(value, context);
                     }),
                   ),

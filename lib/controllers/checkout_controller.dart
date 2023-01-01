@@ -1,8 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../models/shop_item/shop_item.dart';
 
-class CheckoutController extends StateNotifier<List<ShopItem>> {
-  CheckoutController() : super([]);
+class CheckoutController extends AutoDisposeNotifier<List<ShopItem>> {
   void addToCheckout(ShopItem item) {
     int index = state.indexOf(item);
     if (index > -1) {
@@ -20,5 +19,10 @@ class CheckoutController extends StateNotifier<List<ShopItem>> {
       total += (item.amount * item.price);
     }
     return total;
+  }
+
+  @override
+  List<ShopItem> build() {
+    return [];
   }
 }

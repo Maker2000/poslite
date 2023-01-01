@@ -23,7 +23,7 @@ class _AppSettingsState extends ConsumerState<AppSettings> {
                   await FirebaseAuth.instance.signOut();
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    RouteNames.login,
+                    RouteName.login.name,
                     (route) => false,
                   );
                 },

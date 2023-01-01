@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'inventory_widgets.dart';
+import '../widgets/widgets.dart';
 import '../../models/shop_item/shop_item.dart';
 import '../../repositories/item_repo.dart';
 import '../../shared_widgets/loading_screen.dart';
@@ -40,7 +40,7 @@ class _InventoryState extends State<Inventory> {
       floatingActionButton: FloatingActionButton.extended(
         icon: const Icon(Icons.add),
         onPressed: () async {
-          Navigator.pushNamed(context, RouteNames.addItems);
+          Navigator.pushNamed(context, RouteName.addItems.name);
         },
         label: const Text('Add Item'),
       ),

@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:poslite/models/store_transaction/store_transaction.dart';
-import 'package:poslite/pages/dashboard/dashboard_controller.dart';
 import 'package:poslite/shared_widgets/loading_screen.dart';
 import 'package:poslite/util/chart_data_models.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
 
+import '../../controllers/dashboard_controller.dart';
 import '../../repositories/store_transactions_repo.dart';
 
 class SalesGraph extends StatelessWidget {

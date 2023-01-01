@@ -14,7 +14,7 @@ extension UsefulListExtensions<T> on Iterable<T> {
   /// final total = valueList.sum((element) => element);
   /// print(total); // 5
   /// ```
-  double sum(double Function(T) sumFunction) => fold(
+  num sum(num Function(T) sumFunction) => fold(
         0,
         (previousValue, element) => previousValue + sumFunction(element),
       );
@@ -34,7 +34,7 @@ extension UsefulListExtensions<T> on Iterable<T> {
   /// final average = valueList.average((element) => element);
   /// print(average); // 1.6666666666666667
   /// ```
-  double average(double Function(T) sumFunction) {
+  num average(num Function(T) sumFunction) {
     if (length <= 0) {
       throw UnsupportedError(
           'List needs to have elements to perform average calculation');
@@ -77,6 +77,25 @@ extension UsefulListExtensions<T> on Iterable<T> {
       <K, List<T>>{},
       (Map<K, List<T>> map, T element) =>
           map..putIfAbsent(keyFunction(element), () => <T>[]).add(element));
+
+  /// Better than flutter's List.contain(Object)
+  bool containsElement(T element) {
+    for (T e in this) {
+      if (e == element) return true;
+    }
+    return false;
+  }
+
+  /// Contains with a function. [f] required you to return an objust of [T] type
+  bool containsElementData(T Function() f) {
+    for (T e in this) {
+      if (e == f.call()) return true;
+    }
+    return false;
+  }
+
+  /// Removes all null values from list
+  List<T> removeNulls() => where((element) => element != null).toList();
 }
 
 extension UsefulStringExtensions on String {
@@ -154,4 +173,37 @@ extension UsefulStringExtensions on String {
   /// print(splitSentence); // ["hello", "World!"]
   /// ```
   List<String> get splitCamelCaseList => split(_splitRegEx);
+
+  /// Converts a valid phone number string into the formatted phone number: (000) 000-0000
+  String get toPhoneNumberString {
+    if (RegExp(r'[/D]').hasMatch(this)) {
+      throw Exception("This string must be all numbers");
+    }
+    switch (length) {
+      case 7:
+        return "${substring(0, 3)}-${substring(3, 7)}";
+      case 10:
+        return "(${substring(0, 3)}) ${substring(3 - 7)}-${substring(7, 10)}";
+      case 11:
+        return "(${substring(1, 4)}) ${substring(4 - 8)}-${substring(8, 11)}";
+      default:
+        throw Exception("Not a valid phone number");
+    }
+  }
+
+  /// Strips string of all charactors except numbers
+  ///
+  /// Example:
+  /// ``` dart
+  /// String phoneNumber = (453) 945-8453;
+  /// String onlyNumbers = phoneNumber.onlyNumbers;
+  /// print(onlyNumbers); // "4539458453"
+  /// ```
+  String get onlyNumbers => replaceAll(RegExp(r'[/D]'), "");
+}
+
+extension UsefulObjectExtensions on Object {
+  List<T> toListNotNull<T>() {
+    return [this as T];
+  }
 }
