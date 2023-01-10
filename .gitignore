@@ -48,3 +48,6 @@ app.*.map.json
 # all freezed stuff
 *.freezed.dart
 *.g.dart
+
+google-services.json
+secrets.dart

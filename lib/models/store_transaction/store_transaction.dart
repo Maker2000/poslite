@@ -18,9 +18,7 @@ String storeTransactionToJson(StoreTransaction data) =>
 @unfreezed
 class StoreTransaction with _$StoreTransaction {
   factory StoreTransaction({
-    @JsonKey(name: 'items')
-    @ObjectListConverter<ShopItem>(ShopItem.fromJson, ShopItem.tojson)
-        required List<ShopItem> items,
+    @JsonKey(name: 'items') required List<ShopItem> items,
     @JsonKey(name: 'date') @TimestampConverter() required Timestamp date,
     @JsonKey(name: 'transactionType') required String transactionType,
   }) = _StoreTransaction;
