@@ -6,7 +6,7 @@ class TotalAndCheckOut extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: [Text('total')],
+      children: const [Text('total')],
     );
   }
 }

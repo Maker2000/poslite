@@ -225,7 +225,7 @@ class ShopItemCardDetails extends StatelessWidget {
               Row(
                 children: [
                   Row(
-                    children: [],
+                    children: const [],
                   )
                 ],
               )

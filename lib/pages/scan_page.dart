@@ -11,7 +11,7 @@ class ScanItemsPage extends ConsumerStatefulWidget {
 class _ScanItemsPageState extends ConsumerState<ScanItemsPage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Align(),
     );
   }

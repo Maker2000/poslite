@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poslite/models/shop_item/shop_item.dart';
-import 'package:poslite/repositories/item_repo.dart';
-import 'package:poslite/shared_widgets/barcode_scanner.dart';
 import 'package:poslite/widgets/item_card.dart';
 
 import '../../providers/providers.dart';
-import '../widgets/widgets.dart';
 
 class CheckOut extends ConsumerStatefulWidget {
   const CheckOut({Key? key}) : super(key: key);

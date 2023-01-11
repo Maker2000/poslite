@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:poslite/controllers/user_controller.dart';
 import 'package:poslite/providers/providers.dart';
 import 'package:poslite/repositories/auth_repo.dart';
 

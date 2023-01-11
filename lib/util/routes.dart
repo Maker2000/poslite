@@ -57,7 +57,7 @@ final routeProvider = Provider<GoRouter>((ref) {
 });
 
 CustomTransitionPage transitionPage(Widget child) => CustomTransitionPage(
-      transitionDuration: Duration(seconds: 5),
+      transitionDuration: const Duration(seconds: 5),
       child: child,
       transitionsBuilder: (context, animation, secondaryAnimation, child) {
         final tween = Tween(begin: const Offset(0.0, -1.0), end: Offset.zero);

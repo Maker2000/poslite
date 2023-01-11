@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
-import '../util/magic_strings.dart';
 import '../util/secrets.dart';
 
 class AuthRepository {
