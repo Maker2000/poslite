@@ -1,52 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:go_router/go_router.dart';
+import 'package:poslite/util/magic_strings.dart';
+import 'package:poslite/widgets/custom_bottom_nav_bar.dart';
 
 import 'pages.dart';
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  final Widget child;
+
+  const Home({super.key, required this.child});
 
   @override
   State<Home> createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
-  List<Widget> screens = const [
-    Dashboard(),
-    Inventory(),
-    CheckOut(),
-    AppSettings(),
-  ];
   int currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: screens[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
-        currentIndex: currentIndex,
-        selectedItemColor: Colors.blueAccent,
-        unselectedItemColor: Colors.blueGrey,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.dashboard),
-            label: 'Dashboard',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.inventory),
-            label: 'Inventory',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.attach_money),
-            label: 'Checkout',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
+      body: Stack(
+        children: [
+          // TabBar(tabs: tabs)
+          widget.child,
+          POSLiteBottomNavBar(
+            items: [
+              POSLiteNavBarItem(
+                icon: const Icon(FontAwesomeIcons.house),
+              ),
+              POSLiteNavBarItem(
+                icon: const Icon(FontAwesomeIcons.cartFlatbed),
+              ),
+              POSLiteNavBarItem(
+                icon: const Icon(FontAwesomeIcons.cartShopping),
+              ),
+              POSLiteNavBarItem(
+                icon: const Icon(FontAwesomeIcons.gears),
+              ),
+            ],
+            onTap: (i) {
+              context.goNamed(RouteName.values[i].name);
+              setState(() {
+                currentIndex = i;
+              });
+            },
+            currentIndex: currentIndex,
+          )
         ],
       ),
     );

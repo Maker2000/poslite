@@ -21,11 +21,13 @@ class _AppSettingsState extends ConsumerState<AppSettings> {
             ElevatedButton(
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    RouteName.login.name,
-                    (route) => false,
-                  );
+                  if (mounted) {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      RouteName.login.name,
+                      (route) => false,
+                    );
+                  }
                 },
                 child: const Text('Sign Out'))
           ],

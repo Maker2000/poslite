@@ -23,6 +23,11 @@ class CheckoutController extends AutoDisposeNotifier<List<ShopItem>> {
 
   @override
   List<ShopItem> build() {
-    return [];
+    state = [
+      ShopItem(amount: 2, price: 543, name: "Yam"),
+      ShopItem(amount: 3, price: 120, name: "Peas"),
+      ShopItem(amount: 1, price: 543, name: "Bread")
+    ];
+    return state;
   }
 }

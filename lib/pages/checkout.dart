@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:poslite/models/shop_item/shop_item.dart';
 import 'package:poslite/repositories/item_repo.dart';
 import 'package:poslite/shared_widgets/barcode_scanner.dart';
+import 'package:poslite/widgets/item_card.dart';
 
 import '../../providers/providers.dart';
 import '../widgets/widgets.dart';
@@ -23,8 +24,9 @@ class _CheckOutState extends ConsumerState<CheckOut> {
           Expanded(
             child: ListView.builder(
               itemCount: ref.watch(checkoutProvider).length,
-              itemBuilder: (context, index) => CheckoutItemWidget(
-                ref.watch(checkoutProvider)[index],
+              itemBuilder: (context, index) => ShopItemCard(
+                item: ref.watch(checkoutProvider)[index],
+                onDelete: () {},
               ),
             ),
           ),
@@ -34,14 +36,9 @@ class _CheckOutState extends ConsumerState<CheckOut> {
               Text('${ref.watch(checkoutProvider.notifier).totalPrice}'),
             ],
           ),
-          Expanded(child: BarcodeWidget(
-            onTap: (data) async {
-              ShopItem? item = await ProductRepository.instance.getItem(data);
-              if (item != null) {
-                ref.read(checkoutProvider.notifier).addToCheckout(item);
-              }
-            },
-          )),
+          const SizedBox(
+            height: 100,
+          )
         ],
       ),
     );

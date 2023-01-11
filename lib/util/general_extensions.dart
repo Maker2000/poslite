@@ -1,3 +1,5 @@
+import 'package:flutter/material.dart';
+
 extension UsefulListExtensions<T> on Iterable<T> {
   /// Calculates the sum of a collection of [T] elements. [sumFunction] requires a double to be returned
   /// to use for the calculation.
@@ -205,5 +207,27 @@ extension UsefulStringExtensions on String {
 extension UsefulObjectExtensions on Object {
   List<T> toListNotNull<T>() {
     return [this as T];
+  }
+}
+
+extension EnumExtn on Enum {
+  ///Returns a route version of enum
+  ///ex: /enumName
+  String get toRoute => '/$name';
+}
+
+extension BrightnessExtn on Brightness {
+  bool get isDark => this == Brightness.dark;
+  bool get isLight => this == Brightness.light;
+}
+
+extension EnumByName<T extends Enum> on Iterable<T> {
+  T? byNameOrNull(String? name) {
+    if (name == null) return null;
+    try {
+      return byName(name);
+    } catch (e) {
+      return null;
+    }
   }
 }
