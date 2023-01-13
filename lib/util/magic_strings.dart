@@ -9,3 +9,5 @@ enum RouteName {
 }
 
 enum SharedPreferenceName { userData, themeMode }
+
+enum ItemCountChangeType { add, remove }

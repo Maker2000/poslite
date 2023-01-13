@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:poslite/models/shop_item/shop_item.dart';
-import 'package:poslite/util/secrets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'generic_repos.dart';
+import '../models/shop_item/shop_item.dart';
+import '../util/secrets.dart';
 
 class ProductRepository implements IGenericRepository<ShopItem> {
   ProductRepository._inst();

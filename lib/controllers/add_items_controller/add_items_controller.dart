@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:poslite/repositories/item_repo.dart';
+import '../../repositories/item_repo.dart';
 
 import '../../../models/shop_item/shop_item.dart';
 import '../../../shared_widgets/inventory_item_edit.dart';

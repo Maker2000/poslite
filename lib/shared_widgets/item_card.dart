@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:poslite/models/shop_item/shop_item.dart';
-import 'package:poslite/shared_widgets/circle_button.dart';
-import 'package:poslite/shared_widgets/inventory_item_edit.dart';
+import '../models/shop_item/shop_item.dart';
+import 'circle_button.dart';
+import 'inventory_item_edit.dart';
 
 class ItemCard extends StatelessWidget {
   final ShopItem item;

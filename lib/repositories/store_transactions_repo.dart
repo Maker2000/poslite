@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:poslite/models/store_transaction/store_transaction.dart';
-import 'package:poslite/repositories/generic_repos.dart';
 
+import '../models/store_transaction/store_transaction.dart';
+import 'generic_repos.dart';
 import '../util/secrets.dart';
 
 class StoreTransactionRepository extends IGenericRepository<StoreTransaction> {

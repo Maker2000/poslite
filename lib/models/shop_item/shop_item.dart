@@ -16,10 +16,10 @@ class ShopItem with _$ShopItem {
     @JsonKey(name: 'amount') required int amount,
     @JsonKey(name: 'price') required double price,
   }) = _ShopItem;
-
+  ShopItem._();
   factory ShopItem.fromJson(Map<String, dynamic> json) =>
       _$ShopItemFromJson(json);
-
+  double get totalCost => amount * price;
   factory ShopItem.empty() => ShopItem(name: '', amount: 0, price: 0.0);
   static Map<String, dynamic> tojson(ShopItem json) => json.toJson();
 }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:poslite/util/general_extensions.dart';
-import 'package:poslite/util/poslite_colors.dart';
+import 'general_extensions.dart';
+import 'poslite_colors.dart';
 
 class POSLiteTheme {
   static ThemeData appTheme(Brightness brightness) {

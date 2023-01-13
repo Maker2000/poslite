@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:poslite/models/shop_item/shop_item.dart';
+import 'package:intl/intl.dart';
+import '../models/shop_item/shop_item.dart';
+
+import '../util/magic_strings.dart';
 
 class ShopItemCard extends StatefulWidget {
   final ShopItem item;
   final void Function() onDelete;
-  const ShopItemCard({super.key, required this.item, required this.onDelete});
+  final int Function(ItemCountChangeType changeType) changeItemCount;
+  const ShopItemCard(
+      {super.key,
+      required this.item,
+      required this.onDelete,
+      required this.changeItemCount});
 
   @override
   State<ShopItemCard> createState() => _ShopItemCardState();
@@ -42,6 +50,12 @@ class _ShopItemCardState extends State<ShopItemCard>
         CurvedAnimation(parent: _deleteController, curve: Curves.easeInOut));
   }
 
+  void deleteItem() {
+    _deleteController
+        .fling(velocity: 2)
+        .then((value) => widget.onDelete.call());
+  }
+
   @override
   void dispose() {
     _controller.dispose();
@@ -67,7 +81,7 @@ class _ShopItemCardState extends State<ShopItemCard>
                       builder: (context, child) {
                         return LayoutBuilder(builder: (context, constraints) {
                           double height =
-                              MediaQuery.of(context).size.height * 0.2;
+                              MediaQuery.of(context).size.height * 0.22;
                           return GestureDetector(
                             onHorizontalDragStart: (details) {
                               if (_controller.isAnimating) {
@@ -115,12 +129,7 @@ class _ShopItemCardState extends State<ShopItemCard>
                                         width: swipeOffset,
                                         child: DeleteButton(
                                           shape: shape,
-                                          onTap: () {
-                                            _deleteController
-                                                .fling(velocity: 2)
-                                                .then((value) =>
-                                                    widget.onDelete.call());
-                                          },
+                                          onTap: deleteItem,
                                           padding: EdgeInsets.only(
                                             top: paddingAmount,
                                             left: paddingAmount * 0.5,
@@ -142,6 +151,8 @@ class _ShopItemCardState extends State<ShopItemCard>
                                             paddingAnimation.value,
                                         left: paddingAmount,
                                       ),
+                                      delete: deleteItem,
+                                      changeItemCount: widget.changeItemCount,
                                     ),
                                   ),
                                 ],
@@ -193,11 +204,15 @@ class ShopItemCardDetails extends StatelessWidget {
   final ShopItem item;
   final ShapeBorder shape;
   final EdgeInsets padding;
+  final int Function(ItemCountChangeType changeType) changeItemCount;
+  final void Function() delete;
   const ShopItemCardDetails(
       {super.key,
       required this.item,
       required this.shape,
-      required this.padding});
+      required this.padding,
+      required this.changeItemCount,
+      required this.delete});
 
   @override
   Widget build(BuildContext context) {
@@ -222,15 +237,82 @@ class ShopItemCardDetails extends StatelessWidget {
                 height: 10,
               ),
               Text('\$${item.price}'),
+              const SizedBox(
+                height: 10,
+              ),
               Row(
                 children: [
                   Row(
-                    children: const [],
+                    children: [
+                      ItemCountButton(
+                        changeType: ItemCountChangeType.remove,
+                        changeItemCount: changeItemCount,
+                        delete: delete,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(item.amount.toString()),
+                      ),
+                      ItemCountButton(
+                        changeType: ItemCountChangeType.add,
+                        changeItemCount: changeItemCount,
+                        delete: delete,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(NumberFormat.simpleCurrency()
+                            .format(item.totalCost)),
+                      ),
+                    ],
                   )
                 ],
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ItemCountButton extends StatelessWidget {
+  const ItemCountButton(
+      {super.key,
+      required this.changeType,
+      required this.changeItemCount,
+      required this.delete});
+  final ItemCountChangeType changeType;
+  final int Function(ItemCountChangeType) changeItemCount;
+  final void Function() delete;
+  IconData get icon {
+    switch (changeType) {
+      case ItemCountChangeType.add:
+        return FontAwesomeIcons.plus;
+      case ItemCountChangeType.remove:
+        return FontAwesomeIcons.minus;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(4.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          shape: const CircleBorder(),
+          padding: const EdgeInsets.all(0),
+          minimumSize: const Size(24, 24),
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        onPressed: () {
+          int amount = changeItemCount(changeType);
+          if (amount == 0) {
+            delete.call();
+          }
+        },
+        child: Icon(
+          icon,
+          size: 16,
         ),
       ),
     );

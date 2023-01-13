@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poslite/providers/providers.dart';
-import 'package:poslite/util/magic_strings.dart';
+import 'providers.dart';
+import '../util/magic_strings.dart';
 
 class ThemeHandler extends Notifier<ThemeMode> {
   late ThemeMode currentThemeMode;

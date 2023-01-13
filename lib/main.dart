@@ -1,13 +1,13 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poslite/providers/providers.dart';
-import 'package:poslite/providers/theme_handler.dart';
-import 'package:poslite/util/general_extensions.dart';
-import 'package:poslite/util/pos_lite_theme.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'util/magic_strings.dart';
 import 'util/routes.dart';
+import 'providers/providers.dart';
+import 'providers/theme_handler.dart';
+import 'util/general_extensions.dart';
+import 'util/pos_lite_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

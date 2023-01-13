@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poslite/shared_widgets/focus_unfocus.dart';
+import '../shared_widgets/focus_unfocus.dart';
 
 import '../../providers/providers.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:poslite/util/general_extensions.dart';
+import 'general_extensions.dart';
 
 class PosLiteColors {
   static Color canvasColor(Brightness brightness) =>

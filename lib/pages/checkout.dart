@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:poslite/widgets/item_card.dart';
+import 'package:intl/intl.dart';
+import "../widgets/item_card.dart";
 
 import '../../providers/providers.dart';
 
@@ -15,25 +16,39 @@ class _CheckOutState extends ConsumerState<CheckOut> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              itemCount: ref.watch(checkoutProvider).length,
-              itemBuilder: (context, index) => ShopItemCard(
-                item: ref.watch(checkoutProvider)[index],
-                onDelete: () {},
-              ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            title: Row(
+              children: [
+                const Text('Total: '),
+                Text(
+                  NumberFormat.simpleCurrency()
+                      .format(ref.watch(checkoutProvider.notifier).totalPrice),
+                ),
+              ],
             ),
           ),
-          Row(
-            children: [
-              const Text('Total: '),
-              Text('${ref.watch(checkoutProvider.notifier).totalPrice}'),
-            ],
-          ),
-          const SizedBox(
-            height: 100,
+          SliverList(
+            delegate: SliverChildListDelegate(
+              [
+                for (var item in ref.watch(checkoutProvider))
+                  ShopItemCard(
+                    item: item,
+                    onDelete: () {
+                      ref
+                          .read(checkoutProvider.notifier)
+                          .removeCheckoutItem(item);
+                    },
+                    changeItemCount: (changeType) => ref
+                        .read(checkoutProvider.notifier)
+                        .changeCheckoutItemCount(item, changeType),
+                  ),
+                const SizedBox(
+                  height: 100,
+                )
+              ],
+            ),
           )
         ],
       ),
