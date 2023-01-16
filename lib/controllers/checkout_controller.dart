@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:poslite/util/general_extensions.dart';
 import '../../models/shop_item/shop_item.dart';
@@ -18,7 +19,6 @@ class CheckoutController extends Notifier<List<ShopItem>> {
     int index = state.indexWhere((element) => element.id == item.id);
     if (index > -1) {
       var s = state[index];
-
       changeType == ItemCountChangeType.add ? s.amount++ : s.amount--;
       state = state.map((e) => e.id == s.id ? s.copyWith() : e).toList();
       return state[index].amount;
@@ -29,6 +29,19 @@ class CheckoutController extends Notifier<List<ShopItem>> {
 
   void removeCheckoutItem(ShopItem item) {
     state = [...state.where((element) => element.id != item.id)];
+  }
+
+  List<ShopItem> buildItems(List<QueryDocumentSnapshot<ShopItem>> itemsFromDb) {
+    List<ShopItem> itemsToReturn = [];
+    for (var item in state) {
+      try {
+        var dbItem = itemsFromDb.firstWhere((element) => element.id == item.id);
+        itemsToReturn.add(dbItem.data().copyWith(amount: item.amount));
+      } catch (e) {
+        //   state.remove(item);
+      }
+    }
+    return itemsToReturn;
   }
 
   double get totalPrice => state.sum((x) => x.totalCost).toDouble();

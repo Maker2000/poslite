@@ -6,7 +6,7 @@ import '../pages/pages.dart';
 import 'magic_strings.dart';
 
 final routeProvider = Provider<GoRouter>((ref) {
-  return GoRouter(initialLocation: RouteName.dashboard.toRoute, routes: [
+  return GoRouter(initialLocation: RouteName.login.toRoute, routes: [
     GoRoute(
       path: RouteName.login.toRoute,
       name: RouteName.login.name,

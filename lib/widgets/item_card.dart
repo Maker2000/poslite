@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
@@ -50,15 +51,15 @@ class _ShopItemCardState extends State<ShopItemCard>
         CurvedAnimation(parent: _deleteController, curve: Curves.easeInOut));
   }
 
-  void deleteItem() {
-    _deleteController
-        .fling(velocity: 2)
-        .then((value) => widget.onDelete.call());
+  void deleteItem() async {
+    await _deleteController.fling(velocity: 2);
+    widget.onDelete();
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _deleteController.dispose();
     super.dispose();
   }
 
@@ -89,7 +90,7 @@ class _ShopItemCardState extends State<ShopItemCard>
                                     constraints.maxWidth *
                                     moveOffset.sign;
                               } else {
-                                moveOffset = 0;
+                                // moveOffset = 0;
                               }
                             },
                             onHorizontalDragUpdate: (details) {
@@ -100,12 +101,17 @@ class _ShopItemCardState extends State<ShopItemCard>
                               }
                             },
                             onHorizontalDragEnd: (details) {
-                              // _controller.fling(
-                              //     velocity: -details.primaryVelocity!);
+                              _controller
+                                  .fling(
+                                velocity: -clampDouble(
+                                    details.primaryVelocity!, 0, 10),
+                              )
+                                  .then((value) {
+                                if (!_controller.isAnimating) {
+                                  // moveOffset = 0;
+                                }
+                              });
 
-                              if (!_controller.isAnimating) {
-                                moveOffset = 0;
-                              }
                               // if (_controller.value == 0) {
                               //   moveOffset = 0;
                               // }

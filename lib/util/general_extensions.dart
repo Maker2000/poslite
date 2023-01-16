@@ -214,6 +214,8 @@ extension EnumExtn on Enum {
   ///Returns a route version of enum
   ///ex: /enumName
   String get toRoute => '/$name';
+
+  String get titleCase => name.titleCase;
 }
 
 extension BrightnessExtn on Brightness {

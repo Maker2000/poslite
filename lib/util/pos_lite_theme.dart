@@ -1,26 +1,37 @@
 import 'package:flutter/material.dart';
-import 'general_extensions.dart';
 import 'poslite_colors.dart';
 
 class POSLiteTheme {
   static ThemeData appTheme(Brightness brightness) {
     return ThemeData(
       brightness: brightness,
-      primaryColor: brightness.isDark ? Colors.black : Colors.white,
+      primaryColor: PosLiteColors.primary(brightness),
       scaffoldBackgroundColor: PosLiteColors.canvasColor(brightness),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: brightness.isDark ? Colors.black : Colors.white,
-        selectedIconTheme: const IconThemeData(
-          color: Colors.yellow,
+        backgroundColor: PosLiteColors.primary(brightness),
+        selectedIconTheme: IconThemeData(
+          color: PosLiteColors.yellow,
         ),
         unselectedIconTheme: const IconThemeData(color: Colors.grey),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFF8D260),
+          backgroundColor: PosLiteColors.yellow,
         ),
       ),
-      // colorScheme: ColorScheme(brightness: brightness, primary: primary, onPrimary: onPrimary, secondary: secondary, onSecondary: onSecondary, error: error, onError: onError, background: background, onBackground: onBackground, surface: surface, onSurface: onSurface)
+      colorScheme: ColorScheme(
+        brightness: brightness,
+        primary: PosLiteColors.primary(brightness),
+        onPrimary: PosLiteColors.textColor(brightness),
+        secondary: PosLiteColors.yellow,
+        onSecondary: Colors.white,
+        error: Colors.red,
+        onError: Colors.white,
+        background: PosLiteColors.primary(brightness),
+        onBackground: PosLiteColors.textColor(brightness),
+        surface: PosLiteColors.canvasColor(brightness),
+        onSurface: PosLiteColors.textColor(brightness),
+      ),
     );
   }
 }

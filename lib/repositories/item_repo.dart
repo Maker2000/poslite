@@ -34,6 +34,12 @@ class ProductRepository implements IGenericRepository<ShopItem> {
     }
   }
 
+  Stream<QuerySnapshot<ShopItem>> queryItems(List<ShopItem> id) {
+    return getAllItems
+        .where("id", whereIn: id.map<String>((e) => e.id!).toList())
+        .snapshots();
+  }
+
   @override
   Future<void> updateItem(ShopItem item, String docId) async =>
       await getAllItems.doc(docId).update(item.toJson());

@@ -31,14 +31,18 @@ class _LoginState extends ConsumerState<Login> {
                 onChanged: ref.read(loginProvider.notifier).updatePassword,
                 obscureText: true,
                 decoration: const InputDecoration(
-                    border: UnderlineInputBorder(), labelText: 'Password'),
+                  border: UnderlineInputBorder(),
+                  labelText: 'Password',
+                ),
               ),
               const SizedBox(height: 50),
               ref.watch(loginProvider).isLoading
                   ? const CircularProgressIndicator()
                   : ElevatedButton(
                       onPressed: () async {
-                        await ref.read(loginProvider.notifier).signIn(context);
+                        await ref
+                            .read(loginProvider.notifier)
+                            .signIn(context, mounted);
                       },
                       child: const Text('Login'),
                     ),
