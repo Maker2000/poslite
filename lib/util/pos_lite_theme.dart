@@ -19,6 +19,9 @@ class POSLiteTheme {
           backgroundColor: PosLiteColors.yellow,
         ),
       ),
+      progressIndicatorTheme: ProgressIndicatorThemeData(
+        color: PosLiteColors.yellow,
+      ),
       colorScheme: ColorScheme(
         brightness: brightness,
         primary: PosLiteColors.primary(brightness),
