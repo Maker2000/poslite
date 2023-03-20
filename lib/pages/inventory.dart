@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../widgets/widgets.dart';
@@ -15,35 +14,34 @@ class Inventory extends StatefulWidget {
 }
 
 class _InventoryState extends State<Inventory> {
-  late QueryDocumentSnapshot<ShopItem> item;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('test'),
       ),
-      body: StreamBuilder<QuerySnapshot<ShopItem>>(
-        stream: ProductRepository.instance.getAllItems.snapshots(),
-        builder: (context, snapshot) {
-          return !snapshot.hasData
-              ? const LoadingScreen()
-              : InventoryDataTable(
-                  items: snapshot.data!
-                      .docs); /* DisplayList<ShopItem>(
-                  documents: snapshot.data!.docs,
-                  item: (context, data) {
-                    item = data;
-                    return Text(data.data().name);
-                  }); */
-        },
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        icon: const Icon(Icons.add),
-        onPressed: () async {
-          Navigator.pushNamed(context, RouteName.addItems.name);
-        },
-        label: const Text('Add Item'),
-      ),
+      // body: StreamBuilder<List<ShopItem>>(
+      //   stream: ProductRepository.instance.getAllItems,
+      //   builder: (context, snapshot) {
+      //     return !snapshot.hasData
+      //         ? const LoadingScreen()
+      //         : InventoryDataTable(
+      //             items: snapshot
+      //                 .data!); /* DisplayList<ShopItem>(
+      //             documents: snapshot.data!.docs,
+      //             item: (context, data) {
+      //               item = data;
+      //               return Text(data.data().name);
+      //             }); */
+      //   },
+      // ),
+      // floatingActionButton: FloatingActionButton.extended(
+      //   icon: const Icon(Icons.add),
+      //   onPressed: () async {
+      //     Navigator.pushNamed(context, RouteName.addItems.name);
+      //   },
+      //   label: const Text('Add Item'),
+      // ),
     );
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -12,16 +11,6 @@ class ObjectListConverter<T> implements JsonConverter<T, Map<String, dynamic>> {
 
   @override
   Map<String, dynamic> toJson(T object) => toJ(object);
-}
-
-class TimestampConverter implements JsonConverter<Timestamp, Timestamp> {
-  const TimestampConverter();
-
-  @override
-  Timestamp fromJson(Timestamp json) => json;
-
-  @override
-  Timestamp toJson(Timestamp object) => object;
 }
 
 extension AsyncValueUI on AsyncValue<String> {

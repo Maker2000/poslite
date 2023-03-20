@@ -51,7 +51,7 @@ class ItemCard extends StatelessWidget {
                   ),
                   CircleButton(
                     onTap: () {
-                      onDelete(item.id!);
+                      onDelete(item.barcodeId!);
                     },
                     iconData: Icons.delete,
                   ),

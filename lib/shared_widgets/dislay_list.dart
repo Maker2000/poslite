@@ -1,9 +1,8 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class DisplayList<T> extends StatelessWidget {
-  final List<QueryDocumentSnapshot<T>> documents;
-  final Widget Function(BuildContext, QueryDocumentSnapshot<T>) item;
+  final List<T> documents;
+  final Widget Function(BuildContext, T) item;
   const DisplayList({Key? key, required this.documents, required this.item})
       : super(key: key);
 

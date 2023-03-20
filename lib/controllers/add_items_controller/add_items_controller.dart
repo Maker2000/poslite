@@ -26,10 +26,10 @@ class AddItemController extends AutoDisposeAsyncNotifier<AddItemsState> {
 
   Future<void> addItem(String id, BuildContext context) async {
     int itemFromDatabase = databaseList.indexWhere(
-      (element) => element.id == id,
+      (element) => element.barcodeId == id,
     );
     int hasItem = state.value!.items.indexWhere(
-      (element) => element.id == id,
+      (element) => element.barcodeId == id,
     );
 
     if (hasItem == -1) {
@@ -41,7 +41,7 @@ class AddItemController extends AutoDisposeAsyncNotifier<AddItemsState> {
             context: context,
             builder: (_) {
               return InventoryItemEditAlert(
-                item: ShopItem.empty().copyWith(id: id),
+                item: ShopItem.empty().copyWith(barcodeId: id),
               );
             });
       }
@@ -52,7 +52,10 @@ class AddItemController extends AutoDisposeAsyncNotifier<AddItemsState> {
     } else {
       state = AsyncValue.data(state.value!.copyWith(items: [
         for (var item in state.value!.items)
-          if (item.id == id) item.copyWith(amount: item.amount + 1) else item
+          if (item.barcodeId == id)
+            item.copyWith(amount: item.amount + 1)
+          else
+            item
       ]));
     }
   }
@@ -60,10 +63,10 @@ class AddItemController extends AutoDisposeAsyncNotifier<AddItemsState> {
   Future<void> init() async {
     state = const AsyncValue.loading();
 
-    databaseList = (await ProductRepository.instance.getAllItems.get())
-        .docs
-        .map<ShopItem>((e) => e.data())
-        .toList();
+    // databaseList = (await ProductRepository.instance.getAllItems.get())
+    //     .docs
+    //     .map<ShopItem>((e) => e.data())
+    //     .toList();
 
     state = AsyncValue.data(state.value!);
   }
@@ -72,7 +75,7 @@ class AddItemController extends AutoDisposeAsyncNotifier<AddItemsState> {
     String message = '';
     try {
       for (var item in state.value!.items) {
-        await ProductRepository.instance.addItem(item, item.id);
+        await ProductRepository.instance.addItem(item, item.barcodeId);
       }
       message = "Items added successfully";
     } on SocketException {

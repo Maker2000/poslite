@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:intl/intl.dart';
@@ -13,30 +12,23 @@ class SalesGraph extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot<StoreTransaction>>(
-        stream: StoreTransactionRepository.instance.getAllItems.snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData) {
-            return const LoadingScreen();
-          }
-          return SfCartesianChart(
-              title: ChartTitle(text: 'Total Sales'),
-              primaryXAxis: CategoryAxis(),
-              primaryYAxis: NumericAxis(
-                minimum: 0,
-                numberFormat: NumberFormat.compact(),
-              ),
-              tooltipBehavior: TooltipBehavior(enable: true),
-              series: <ChartSeries<SalesChartData, String>>[
-                BarSeries<SalesChartData, String>(
-                  animationDuration: 1000,
-                  dataLabelSettings: const DataLabelSettings(isVisible: true),
-                  width: 0.7,
-                  dataSource: DashboardFunctions.salesData(snapshot.data!.docs),
-                  xValueMapper: (SalesChartData data, _) => data.item,
-                  yValueMapper: (SalesChartData data, _) => data.amountSold,
-                )
-              ]);
-        });
+    return SfCartesianChart(
+        title: ChartTitle(text: 'Total Sales'),
+        primaryXAxis: CategoryAxis(),
+        primaryYAxis: NumericAxis(
+          minimum: 0,
+          numberFormat: NumberFormat.compact(),
+        ),
+        tooltipBehavior: TooltipBehavior(enable: true),
+        series: <ChartSeries<SalesChartData, String>>[
+          BarSeries<SalesChartData, String>(
+            animationDuration: 1000,
+            dataLabelSettings: const DataLabelSettings(isVisible: true),
+            width: 0.7,
+            dataSource: [],
+            xValueMapper: (SalesChartData data, _) => data.item,
+            yValueMapper: (SalesChartData data, _) => data.amountSold,
+          )
+        ]);
   }
 }

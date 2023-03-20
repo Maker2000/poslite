@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../../models/shop_item/shop_item.dart';
 import '../../repositories/item_repo.dart';
@@ -15,7 +14,7 @@ class InventoryItem extends StatelessWidget {
 }
 
 class InventoryDataTable extends StatelessWidget {
-  final List<QueryDocumentSnapshot<ShopItem>> items;
+  final List<ShopItem> items;
   const InventoryDataTable({Key? key, required this.items}) : super(key: key);
 
   @override
@@ -25,12 +24,12 @@ class InventoryDataTable extends StatelessWidget {
         children: [
           for (var item in items)
             ItemCard(
-              item: item.data(),
+              item: item,
               onDelete: (id) {
                 ProductRepository.instance.deleteItem(id);
               },
               onEdit: (id) {
-                ProductRepository.instance.updateItem(id, id.id!);
+                ProductRepository.instance.updateItem(id, id.barcodeId!);
               },
               label: 'inventory',
             )

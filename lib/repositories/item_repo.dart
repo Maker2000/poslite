@@ -1,5 +1,6 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:poslite/repositories/database_connection/database_connection.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sqflite/sqlite_api.dart';
 
 import 'generic_repos.dart';
 import '../models/shop_item/shop_item.dart';
@@ -10,45 +11,47 @@ class ProductRepository implements IGenericRepository<ShopItem> {
   static final ProductRepository _instance = ProductRepository._inst();
 
   static ProductRepository get instance => _instance;
-  @override
-  CollectionReference<ShopItem> get getAllItems => FirebaseFirestore.instance
-      .collection(DatabaseCollection.inventory)
-      .withConverter(
-        fromFirestore: (snapshot, _) => ShopItem.fromJson(snapshot.data()!),
-        toFirestore: (ShopItem model, _) => model.toJson(),
-      );
 
   @override
-  Future<ShopItem?> getItem(String documentId) async =>
-      (await getAllItems.doc(documentId).get()).data();
-  @override
-  Future<void> addItem(ShopItem item, [String? docId]) async {
-    DocumentSnapshot<ShopItem> items = await getAllItems.doc(docId).get();
-    var p = await SharedPreferences.getInstance();
-    p.setInt('key', 0xffacff34);
-    if (items.data() == null) {
-      await getAllItems.doc(docId).set(item);
-    } else {
-      item.amount += items.data()!.amount;
-      await getAllItems.doc(items.id).update(item.toJson());
-    }
-  }
-
-  Stream<QuerySnapshot<ShopItem>> queryItems(List<ShopItem> id) {
-    return getAllItems
-        .where("id", whereIn: id.map<String>((e) => e.id!).toList())
-        .snapshots();
+  Future<void> addItem(ShopItem item, [String? docId]) {
+    // TODO: implement addItem
+    throw UnimplementedError();
   }
 
   @override
-  Future<void> updateItem(ShopItem item, String docId) async =>
-      await getAllItems.doc(docId).update(item.toJson());
-  @override
-  Future<void> deleteItem(String docId) async =>
-      await getAllItems.doc(docId).delete();
+  Future<void> deleteItem(String docId) async {
+    await DatabaseConnection.instance.database?.delete(shopitemTableName,
+        where: '${NameOfShopItem.barcodeId} = ?', whereArgs: [docId]);
+  }
 
   @override
-  DocumentReference<ShopItem> streamItem(String id) {
-    return streamItem(id);
+  Future<List<ShopItem>> get getAllItems async {
+    var items =
+        await DatabaseConnection.instance.database?.query(shopitemTableName);
+    if (items == null) return [];
+    if (items.isEmpty) return [];
+    return items.map((e) => ShopItem.fromJson(e)).toList();
+  }
+
+  @override
+  Future<ShopItem?> getItem(String documentId) {
+    // TODO: implement getItem
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> updateItem(ShopItem item, String docId) async {
+    await DatabaseConnection.instance.database?.insert(
+        shopitemTableName, item.toDatabaseJson(),
+        conflictAlgorithm: ConflictAlgorithm.replace);
+  }
+
+  @override
+  Future<List<ShopItem>> getItemsPaginated(int skip, int count) async {
+    var items = await DatabaseConnection.instance.database
+        ?.query(shopitemTableName, offset: skip, limit: count);
+    if (items == null) return [];
+    if (items.isEmpty) return [];
+    return items.map((e) => ShopItem.fromJson(e)).toList();
   }
 }
