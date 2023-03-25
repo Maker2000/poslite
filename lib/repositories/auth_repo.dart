@@ -35,6 +35,7 @@ class AuthRepository {
       user.toDatabaseJson(),
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
+
     return user;
   }
 }
