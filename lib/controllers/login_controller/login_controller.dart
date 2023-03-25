@@ -16,13 +16,11 @@ class LoginScreenController extends AutoDisposeAsyncNotifier<LoginState> {
     state = const AsyncValue.loading();
     try {
       var res = await AuthRepository.instance.signIn(state.value!.password!);
-      if (res != null) {
-        ref.read(userProvider.notifier).setUser(res);
+      if (res.user != null) {
+        ref.read(userProvider.notifier).setUser(res.user!);
         if (mounted) {
           context.goNamed(RouteName.dashboard.name);
         }
-      } else {
-        state = AsyncValue.data(state.value!);
       }
     } catch (e) {
       state = AsyncValue.data(state.value!);

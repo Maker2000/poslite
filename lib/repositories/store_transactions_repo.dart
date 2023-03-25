@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/store_transaction/store_transaction.dart';
 import 'generic_repos.dart';
 import '../util/secrets.dart';
@@ -8,12 +10,24 @@ class StoreTransactionRepository extends IGenericRepository<StoreTransaction> {
       StoreTransactionRepository._inst();
   static StoreTransactionRepository get instance => _instance;
   @override
-  Future<void> addItem(StoreTransaction item, [String? docId]) async {}
+  Future<void> addItem(StoreTransaction item, [String? docId]) async {
+    getAllItems.add(item);
+  }
 
   @override
   Future<void> deleteItem(String docId) {
     throw UnimplementedError();
   }
+
+  @override
+  CollectionReference<StoreTransaction> get getAllItems =>
+      FirebaseFirestore.instance
+          .collection(DatabaseCollection.storeTransactions)
+          .withConverter(
+            fromFirestore: (snapshot, _) =>
+                StoreTransaction.fromJson(snapshot.data()!),
+            toFirestore: (StoreTransaction model, _) => model.toJson(),
+          );
 
   @override
   Future<StoreTransaction?> getItem(String documentId) {
@@ -22,15 +36,6 @@ class StoreTransactionRepository extends IGenericRepository<StoreTransaction> {
 
   @override
   Future<void> updateItem(StoreTransaction item, String docId) {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<List<StoreTransaction>> get getAllItems => throw UnimplementedError();
-
-  @override
-  Future<List<StoreTransaction>> getItemsPaginated(int skip, int count) {
-    // TODO: implement getItemsPaginated
     throw UnimplementedError();
   }
 }

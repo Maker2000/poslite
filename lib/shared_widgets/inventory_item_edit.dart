@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'validate_formfield.dart';
 
@@ -31,12 +32,13 @@ class _InventoryItemEditAlertState extends State<InventoryItemEditAlert> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: !(widget.item.runtimeType == ShopItem)
+      title: !(widget.item.runtimeType == QueryDocumentSnapshot<ShopItem>)
           ? const Text('Add Item')
-          : Text('Edit ${(widget.item).name}'),
+          : Text(
+              'Edit ${(widget.item as QueryDocumentSnapshot<ShopItem>).data().name}'),
       content: Form(
         onChanged: () {
-          Form.of(primaryFocus!.context!).save();
+          Form.of(primaryFocus!.context!)!.save();
         },
         child: Column(
           mainAxisSize: MainAxisSize.min,

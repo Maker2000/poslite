@@ -1,13 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 /// [IGenericRepository] a part of the repository pattern.
 abstract class IGenericRepository<T> {
   /// This gets all the items of a specific type [T]. Returns a [CollectionReference]
-  Future<List<T>> get getAllItems;
-  Future<List<T>> getItemsPaginated(int skip, int count);
+  CollectionReference<T> get getAllItems;
   Future<T?> getItem(String documentId);
   Future<void> addItem(T item, [String? docId]);
   Future<void> updateItem(T item, String docId);
   Future<void> deleteItem(String docId);
-  // T streamItem(String id) {
-  //   return getAllItems.first;
-  // }
+  DocumentReference<T> streamItem(String id) {
+    return getAllItems.doc(id);
+  }
 }

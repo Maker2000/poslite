@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:poslite/util/general_extensions.dart';
 import '../../models/shop_item/shop_item.dart';
@@ -30,12 +31,12 @@ class CheckoutController extends Notifier<List<ShopItem>> {
     state = [...state.where((element) => element.id != item.id)];
   }
 
-  List<ShopItem> buildItems(List<ShopItem> itemsFromDb) {
+  List<ShopItem> buildItems(List<QueryDocumentSnapshot<ShopItem>> itemsFromDb) {
     List<ShopItem> itemsToReturn = [];
     for (var item in state) {
       try {
         var dbItem = itemsFromDb.firstWhere((element) => element.id == item.id);
-        itemsToReturn.add(dbItem.copyWith(amount: item.amount));
+        itemsToReturn.add(dbItem.data().copyWith(amount: item.amount));
       } catch (e) {
         //   state.remove(item);
       }
@@ -48,11 +49,11 @@ class CheckoutController extends Notifier<List<ShopItem>> {
   @override
   List<ShopItem> build() {
     state = [
-      ShopItem(amount: 2, price: 543, name: "Yam", barcodeId: '1'),
-      ShopItem(amount: 3, price: 120, name: "Peas", barcodeId: '2'),
-      ShopItem(amount: 1, price: 543, name: "Bread", barcodeId: '3'),
-      ShopItem(amount: 1, price: 243, name: "Toothpaste", barcodeId: '4'),
-      ShopItem(amount: 4, price: 1043, name: "Cake", barcodeId: '5')
+      ShopItem(amount: 2, price: 543, name: "Yam", id: '1'),
+      ShopItem(amount: 3, price: 120, name: "Peas", id: '2'),
+      ShopItem(amount: 1, price: 543, name: "Bread", id: '3'),
+      ShopItem(amount: 1, price: 243, name: "Toothpaste", id: '4'),
+      ShopItem(amount: 4, price: 1043, name: "Cake", id: '5')
     ];
     return state;
   }
