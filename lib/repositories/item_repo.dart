@@ -13,10 +13,9 @@ class ProductRepository implements IGenericRepository<ShopItem> {
   static ProductRepository get instance => _instance;
 
   @override
-  Future<void> addItem(ShopItem item, [String? docId]) async {
-    await DatabaseConnection.instance.database?.insert(
-        shopitemTableName, item.toDatabaseJson(),
-        conflictAlgorithm: ConflictAlgorithm.abort);
+  Future<void> addItem(ShopItem item, [String? docId]) {
+    // TODO: implement addItem
+    throw UnimplementedError();
   }
 
   @override
@@ -35,12 +34,9 @@ class ProductRepository implements IGenericRepository<ShopItem> {
   }
 
   @override
-  Future<ShopItem?> getItem(String documentId) async {
-    var items = await DatabaseConnection.instance.database
-        ?.query(shopitemTableName, limit: 1);
-    if (items == null) return null;
-    if (items.isEmpty) return null;
-    return ShopItem.fromJson(items.first);
+  Future<ShopItem?> getItem(String documentId) {
+    // TODO: implement getItem
+    throw UnimplementedError();
   }
 
   @override
